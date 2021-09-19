@@ -1,0 +1,1 @@
+New-PSUDashboard -Name "Provisioning Portal" -FilePath "C:\ProgramData\UniversalAutomation\Repository\Dashboards\Provisioning_Portal\Provisioning_Portal.ps1" -BaseUrl "/provisioning" -Framework "UniversalDashboard:Latest" -Environment "Integrated" -SessionTimeout 0 -AutoDeploy -Credential "Default"
