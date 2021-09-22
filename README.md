@@ -16,3 +16,6 @@ we chose was to send an ASA, Switch and Server to their factory where all imagin
 
 The ASA provides a dedicated VPN connection back to our facility and the server is a MP/DP for ConfigMgr.
 
+This solution provides us the ability to stage the devices (without having to import into ConfigMgr), but only by 
+the serial number. We can specify the hostname we want, what OU to put it in, in AD. as well as the ability to choose 
+what task sequence and also what apps we wanted. All on a per machine basis.
