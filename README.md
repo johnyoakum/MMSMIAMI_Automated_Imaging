@@ -29,4 +29,4 @@ in order to access the machines remotely while they were imaging. All on a per m
 ## Setup
 Contained in this repo are all the files necessary to make this solution work for you. Run the script 
 Install-AutomatedProvisioning.ps1 with the following syntax:
-< .\Install-AutomatedProvisioing.ps1 -SiteServer "MEMCM FQDN SERVERNAME"
+> .\Install-AutomatedProvisioing.ps1 -SiteServer "MEMCM FQDN SERVERNAME"
