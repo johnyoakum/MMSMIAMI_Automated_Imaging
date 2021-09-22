@@ -18,4 +18,10 @@ The ASA provides a dedicated VPN connection back to our facility and the server 
 
 This solution provides us the ability to stage the devices (without having to import into ConfigMgr), but only by 
 the serial number. We can specify the hostname we want, what OU to put it in, in AD. as well as the ability to choose 
-what task sequence and also what apps we wanted. All on a per machine basis.
+what task sequence and also what apps we wanted. Also allows us to store the information that we would need 
+in order to access the machines remotely while they were imaging. All on a per machine basis.
+## Pre-Requisites
+*MEMCM Environment
+*Sql Server or SQL Server Express
+*Permissions to create Database Structure
+*Admin permissions
