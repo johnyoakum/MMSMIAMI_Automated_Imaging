@@ -21,7 +21,7 @@ the serial number. We can specify the hostname we want, what OU to put it in, in
 what task sequence and also what apps we wanted. Also allows us to store the information that we would need 
 in order to access the machines remotely while they were imaging. All on a per machine basis.
 ## Pre-Requisites
-*MEMCM Environment
-*Sql Server or SQL Server Express
-*Permissions to create Database Structure
-*Admin permissions
+* MEMCM Environment
+* Sql Server or SQL Server Express
+* Permissions to create Database Structure
+* Admin permissions
