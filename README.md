@@ -53,7 +53,7 @@ This script will perform the following functions:
 * Create the endpoints (APIs) and Dashboard that will be used within Powershell Universal Community
 * Update additional scripts used for the boot image with the values provided
 
-## Manual Modifications
+## Manual Modifications to the scripts
 #### There are some manual modifications to the scripts included here that help you customize the look and feel just for your environment.
 Change the following lines in the AutoDeploy.ps1 file:
 
@@ -62,7 +62,7 @@ Change the following lines in the AutoDeploy.ps1 file:
 * Line 637
   * Change to what color you would want your foreground​
 * Line 640
-  * Change the base64 string for the logo that you want to display across the system
+  * Change the base64 string for the logo that you want to display across the system (for manual deployments)
 
 I added the ability to have a default automated build if the device falls between a set IP Range.
 This ensures that there won't be any failures during the process if the device had not been preprovisioned.
@@ -78,3 +78,24 @@ In order to accomodate this, we need to add a few specific items staged in the s
   * Change what you want the default computer name to be​
 
 > You will need to add a single device in the portal called DellDefault (you can rename to whatever you like, but make sure that you change it in the script as well) which includes your default task sequence to run with the default application profile as well as default OU​
+
+## Remote Tool Integration
+This process has DaRT Tools installed on the boot.wim file so that we can connect to the machine during OSD, but still
+in the WinPE phase. I will also go through the process of configuring VNC for connecting to the remote machine during OSD
+after the WinPE phase. The dashboard stores all the information needed to connect to those machines. In the "Configuring 
+Task Sequence" section, I will cover the additional steps you will want to add for facilitating this.
+
+## Congigure Boot Image
+
+## Configure VNC for connecting remotely during Task Sequence (after WinPE)
+
+## Configure Task Sequence
+
+## Dashboard Walkthrough
+
+## First Time Setup in Dashboard
+* Create your location(s)
+* Add Application Profile(s)
+* Add your default computer setting
+
+

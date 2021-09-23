@@ -201,9 +201,7 @@ CREATE TABLE [dbo].[Locations](
 	[locationName] [nchar](35) NULL,
 	[campusCode] [nchar](4) NOT NULL,
 	[searchBase] [nchar](255) NOT NULL,
-	[display] [bit] NOT NULL,
-	[adwsServer] [nchar](255) NOT NULL,
-	[webService] [nchar](255) NOT NULL,
+	[display] [bit] NOT NULL
 PRIMARY KEY CLUSTERED 
 (
 	[locationid] ASC
