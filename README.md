@@ -53,4 +53,5 @@ This script will perform the following functions:
 * Create the endpoints (APIs) and Dashboard that will be used within Powershell Universal Community
 * Update additional scripts used for the boot image with the values provided
 
-
+## Manual Modifications
+### There are some manual modifications to the scripts included here that help you customize the look and feel just for you.
