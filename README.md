@@ -26,7 +26,31 @@ in order to access the machines remotely while they were imaging. All on a per m
 * Permissions to create Database Structure
 * Admin permissions
 * DaRT Tools (for remote access)
-## Setup
+## Setup Database, APIs and Provisioning Dashboard
 Contained in this repo are all the files necessary to make this solution work for you. Run the script 
 Install-AutomatedProvisioning.ps1 with the following syntax:
-> .\Install-AutomatedProvisioing.ps1 -SiteServer "MEMCM FQDN SERVERNAME"
+> .\Install-AutomatedProvisioning.ps1 -SiteServer 'sccm.siteserver.com' -SiteCode 'CM1' -ServerInstance 'viamonstra\sql01' -DBName 'Provisioning' -DBStorage 'E:\Database' -LogStorage 'E:\Logs'
+
+It takes the following parameters
+* -SiteServer 
+  * This is the FQDN of your ConfigMgr Site Server
+* -SiteCode
+  * This is the site code for your ConfigMgr System
+* -ServerInstance
+  * This is the location of your SQL Server
+  * This will attempt to install on a remote system, if one is provided. In order to do this, you need to make sure that PSRemoting is configured on that server.
+  * This script will fail if it cannot connect to the SQL Server and create the structure
+* -DBName
+  * This will be the name of the database that you wish to create
+* -DBStorage
+  * This is where you want to save the database file on the SQL Server
+* -LogStorage
+  * This is where you want to save the Log file for the database
+
+This script will perform the following functions:
+* Create the database and table structure
+* Download and install Powershell Universal Community
+* Create the endpoints (APIs) and Dashboard that will be used within Powershell Universal Community
+* Update additional scripts used for the boot image with the values provided
+
+
