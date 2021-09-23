@@ -93,7 +93,7 @@ Function Store-Password {
         $Password
         )
     # Need to fix the line below to match your domain
-    If ($UserName -notlike "ua\*"){$username = "ua\$UserName"}
+    If ($UserName -notlike "<DN>\*"){$username = "<DN>\$UserName"}
     Return New-Object System.Management.Automation.PSCredential ($UserName,$Password)
 }
 
@@ -361,7 +361,7 @@ Function Start-Loading {
     $XMLoadingForm.Show()
     Write-CMLogEntry -Value "Showing the Message about waiting for an IP Address " -Severity 1
 	Write-Host "Showing the Message about waiting for an IP Address "
-    DO {$Connected = Test-Connection -ComputerName 137.229.138.132 -Count 1 -Quiet} while ($Connected -ne "True")
+    DO {$Connected = Test-Connection -ComputerName "<UNIVERSALSERVERNAME>" -Count 1 -Quiet} while ($Connected -ne "True")
 
     Write-CMLogEntry -Value "Got an IP Address, checking to see if an automated deployment has been configured for this device. " -Severity 1
 	Write-Host "Got an IP Address, checking to see if an automated deployment has been configured for this device. "
@@ -579,7 +579,7 @@ $separator
 $Script:BaseURL = "<UNIVERSALSERVER>"
 
 #Define the Domain for authenticating to
-$Domain = '[replace domain name here]'
+$Domain = '<DomainFQDN>'
 
 # Define the search base for each location
 # ********** Add Auth here when availalbe *********

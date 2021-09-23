@@ -527,7 +527,7 @@ $Pages += New-UDPage -Name "Hardware Remote Codes" -Title "Provisioning Portal" 
                 RemoteCode = $_.RemoteCode
                 Port = 3389
                 CreatedDate = $_.CreatedDate
-                VNCPassword = "UAA@dmin"
+                VNCPassword = "VNC@dmin"
             }
         }
         $Data | Out-UDTableData -Page $TableData.page -TotalCount $Count.count -Properties $TableData.properties

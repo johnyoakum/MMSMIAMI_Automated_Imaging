@@ -27,7 +27,7 @@
   Purpose/Change: Initial script development
   
 .EXAMPLE
-  <Create-AutomatedProvisioning -SiteServer 'sccm.siteserver.com' -SiteCode 'CM1' -ServerInstance 'viamonstra\sql01' -DBName 'Provisioning'-DBStorage 'E:\Database' -LogStorage 'E:\Logs' >
+  <.\Install-AutomatedProvisioning.ps1 -SiteServer 'sccm.siteserver.com' -SiteCode 'CM1' -ServerInstance 'viamonstra\sql01' -DBName 'Provisioning'-DBStorage 'E:\Database' -LogStorage 'E:\Logs' >
 #>
 
 #---------------------------------------------------------[Initialisations]--------------------------------------------------------
@@ -46,18 +46,16 @@ param (
         Mandatory = $true,
         ValueFromPipeline = $true,
 		HelpMessage="Enter your MEMCM site code.",
-
         Position = 1
     )]
     [string[]]$SiteCode,
     [parameter (
-        Mandatory = $true,
+        Mandatory = $false,
         ValueFromPipeline = $true,
 		HelpMessage="Enter the name of the hostname and instance if needed of the SQL Server for the Provisioning System.",
-
         Position = 2
     )]
-    [string[]]$ServerInstance,
+    [string[]]$ServerInstance = "$env:Computername",
     [parameter (
         Mandatory = $true,
         ValueFromPipeline = $true,
@@ -330,8 +328,11 @@ DELETE FROM [dbo].[HardwareRemoteCode]
 END
 GO
 "
-
+$UniversalServerHostName = $([System.Net.Dns]::GetHostByName($env:computerName).HostName)
 $UniversalHost = "http://$([System.Net.Dns]::GetHostByName($env:computerName).HostName):5000"
+$UniversalHostLenth = $($UniversalHost -split "\.")[0].Length
+$DomainFQDN = $UniversalHost.Substring(($UniversalHostLenth +1))
+$DomainWINS = $($UniversalHost -split "\.")[1]
 
 #-----------------------------------------------------------[Functions]------------------------------------------------------------
 
@@ -400,6 +401,12 @@ Write-Host "Updating Boot image script with correct API references based on defa
 Write-Host "Updating WinPE_Dart script with correct API references based on default Powershell Universal Installation..."
 # Search through Powershell Boot script for API references and replace with right server
 (Get-Content -path $ScriptPath\SampleFiles\WinPE_Dart.ps1) | ForEach-Object {$_ -replace '<UNIVERSALSERVER>',"$($UniversalHost)" } | Set-Content -path $ScriptPath\SampleFiles\WinPE_Dart.ps1 | Out-Null
+
+Write-Host "Updating AutoDeploy script with correct Domain references based on default Powershell Universal Installation..."
+# Search through Powershell Boot script for API references and replace with right server
+(Get-Content -path $ScriptPath\AutoDeploy.ps1) | ForEach-Object {$_ -replace '<DN>',"$($DomainWINS)" } | Set-Content -path $ScriptPath\AutoDeploy.ps1 | Out-Null
+(Get-Content -path $ScriptPath\AutoDeploy.ps1) | ForEach-Object {$_ -replace '<UNIVERSALSERVERNAME>',"$($UniversalServerHostName)" } | Set-Content -path $ScriptPath\AutoDeploy.ps1 | Out-Null
+(Get-Content -path $ScriptPath\AutoDeploy.ps1) | ForEach-Object {$_ -replace '<DOMAINFQDN>',"$($DomainFQDN)" } | Set-Content -path $ScriptPath\AutoDeploy.ps1 | Out-Null
 
 Write-Host "Creating the directory Structure for the Powershell Universal Files"
 New-Item -Path C:\ProgramData\UniversalAutomation -Name "Repository" -ItemType "directory"
