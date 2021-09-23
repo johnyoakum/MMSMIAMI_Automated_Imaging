@@ -339,12 +339,25 @@ $DomainWINS = $($UniversalHost -split "\.")[1]
 #-----------------------------------------------------------[Execution]------------------------------------------------------------
 Write-Host "Starting to install the project for the automated imaging..."
 
-Write-Host "Checking to make sure that SQL Server or SQL Server Express is installed..."
-$IsSQLInstalled =  Get-Service -Name MSSQL* | Where-Object {$_.status -eq "Running" -and ($_.name -ne 'MSSQLFDLauncher')} | Select-Object -Property PSComputerName, @{label='InstanceName';expression={$_.Name -replace '^.*\$'}}
-	If ($IsSQLInstalled.Count -eq 0 ) {
+Write-Host "Attempting to connect to remote SQL Server..."
+Try {
+	$IsSQLInstalled =  Invoke-Command -Computername $ServerInstance { Get-Service -Name MSSQL* | Where-Object {$_.status -eq "Running" -and ($_.name -ne 'MSSQLFDLauncher')} | Select-Object -Property PSComputerName, @{label='InstanceName';expression={$_.Name -replace '^.*\$'}} } -ErrorAction Stop
+	$SQLRemote = $True
+	$SQLServer = $ServerInstance
+} Catch {
+	Write-Host "Could not connect to remote server or could not find MSSQL installed on remote machine, attempting locally..." -ForegroundColor Cyan
+	$SQLRemote = $False
+}
+If ($SQLRemote = $False) {
+	Write-Host "Checking to make sure that SQL Server or SQL Server Express is installed locally..."
+	$IsSQLInstalled =  Get-Service -Name MSSQL* | Where-Object {$_.status -eq "Running" -and ($_.name -ne 'MSSQLFDLauncher')} | Select-Object -Property PSComputerName, @{label='InstanceName';expression={$_.Name -replace '^.*\$'}}
+}
+If ($IsSQLInstalled.Count -eq 0 ) {
 	Write-Host "Could not find an instace of SQL on the machine chosen. Please install and try again." -ForegroundColor 'red'
 	Pause
 	exit
+} else {
+	$SQLServer = $env:COMPUTERNAME
 }
 # Get and store the credential for creating the database and table structure
 $Credential = $(Get-Credential -Message "Please enter credentials with sysadmin permissions for SQL Server")
@@ -357,23 +370,23 @@ If ($SqlServerInstalled.Count -eq 0) {
     Install-Module -Name SqlServer -AllowClobber -Force
 }
 
-Write-Host "Creating the database to host the tables necessary for the Automated Imaging... for $ServerInstance"
+Write-Host "Creating the database to host the tables necessary for the Automated Imaging... for $SQLServer"
 # Create the database on the server
-Invoke-SqlCmd -ServerInstance "$ServerInstance" -Credential $Credential -Query $sqlCreateDatabase | Out-Null
+Invoke-SqlCmd -ServerInstance "$SQLServer" -Credential $Credential -Query $sqlCreateDatabase | Out-Null
 
 Write-host "Creating the table structure for the Automated Imaging..."
 # Create the table structure
-Invoke-SqlCmd -ServerInstance "$ServerInstance" -Credential $Credential -Query $sqlCreateTableStructure | Out-Null
+Invoke-SqlCmd -ServerInstance "$SQLServer" -Credential $Credential -Query $sqlCreateTableStructure | Out-Null
 
-If ($SiteServer -like "$($ServerInstance)%" ) {
+If ($SiteServer -like "$($SQLServer)%" ) {
     Write-host "Creating the linked server to the Site Server"
     # Create the table structure
-    Invoke-SqlCmd -ServerInstance "$ServerInstance" -Credential $Credential -Query $sqlLinkedServer | Out-Null
+    Invoke-SqlCmd -ServerInstance "$SQLServer" -Credential $Credential -Query $sqlLinkedServer | Out-Null
 }
 
 Write-host "Creating the Stored Procedures"
 # Create the table structure
-Invoke-SqlCmd -ServerInstance "$ServerInstance" -Credential $Credential -Query $sqlCreateFunctions | Out-Null
+Invoke-SqlCmd -ServerInstance "$SQLServer" -Credential $Credential -Query $sqlCreateFunctions | Out-Null
 
 Write-Host "Downloading and installing Powershell Universal"
 # Install Powershell Universal with all the default settings
@@ -383,7 +396,7 @@ Invoke-WebRequest https://imsreleases.blob.core.windows.net/universal/production
 Write-Host "Updating APIs with correct Powershell Universal Server..."
 # Search through the endpoint and replace server name for API calls
 $ScriptPath = Split-Path $script:MyInvocation.MyCommand.Path
-(Get-Content -path $ScriptPath\endpoints.ps1) | ForEach-Object {$_ -replace '<SQLHOST>',"$($ServerInstance)" } | Set-Content -path $ScriptPath\endpoints.ps1 | Out-Null
+(Get-Content -path $ScriptPath\endpoints.ps1) | ForEach-Object {$_ -replace '<SQLHOST>',"$($SQLServer)" } | Set-Content -path $ScriptPath\endpoints.ps1 | Out-Null
 (Get-Content -path $ScriptPath\endpoints.ps1) | ForEach-Object {$_ -replace '<SITECODE>',"$($SiteCode)" } | Set-Content -path $ScriptPath\endpoints.ps1 | Out-Null
 (Get-Content -path $ScriptPath\endpoints.ps1) | ForEach-Object {$_ -replace '<SQLDB>',"$($DBName)" } | Set-Content -path $ScriptPath\endpoints.ps1 | Out-Null
 (Get-Content -path $ScriptPath\endpoints.ps1) | ForEach-Object {$_ -replace '<UNIVERSALSERVER>',"$($UniversalHost)" } | Set-Content -path $ScriptPath\endpoints.ps1 | Out-Null
@@ -391,7 +404,7 @@ $ScriptPath = Split-Path $script:MyInvocation.MyCommand.Path
 Write-Host "Updating References in Dashboard for server names, based on default Powershell Universal Installation..."
 # Search through Dashboard and replace references to Invoke-Restmethod
 (Get-Content -path $ScriptPath\Provisioning_Portal.ps1) | ForEach-Object {$_ -replace '<UNIVERSALSERVER>',"$($UniversalHost)" } | Set-Content -path $ScriptPath\Provisioning_Portal.ps1 | Out-Null
-(Get-Content -path $ScriptPath\Provisioning_Portal.ps1) | ForEach-Object {$_ -replace '<SQLHOST>',"$($ServerInstance)" } | Set-Content -path $ScriptPath\Provisioning_Portal.ps1 | Out-Null
+(Get-Content -path $ScriptPath\Provisioning_Portal.ps1) | ForEach-Object {$_ -replace '<SQLHOST>',"$($SQLServer)" } | Set-Content -path $ScriptPath\Provisioning_Portal.ps1 | Out-Null
 (Get-Content -path $ScriptPath\Provisioning_Portal.ps1) | ForEach-Object {$_ -replace '<SQLDB>',"$($DBName)" } | Set-Content -path $ScriptPath\Provisioning_Portal.ps1 | Out-Null
 
 Write-Host "Updating Boot image script with correct API references based on default Powershell Universal Installation..."

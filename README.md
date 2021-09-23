@@ -39,7 +39,7 @@ It takes the following parameters
 * -ServerInstance
   * This is the location of your SQL Server
   * This will attempt to install on a remote system, if one is provided. In order to do this, you need to make sure that PSRemoting is configured on that server. If it can't connect remotely, it will try to install locally.
-  * This script will fail if it cannot connect to the SQL Server and create the structure
+  * This script will fail if it cannot connect to a SQL Server and create the structure
 * -DBName
   * This will be the name of the database that you wish to create
 * -DBStorage
