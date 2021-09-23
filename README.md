@@ -54,4 +54,27 @@ This script will perform the following functions:
 * Update additional scripts used for the boot image with the values provided
 
 ## Manual Modifications
-#### There are some manual modifications to the scripts included here that help you customize the look and feel just for you.
+#### There are some manual modifications to the scripts included here that help you customize the look and feel just for your environment.
+Change the following lines in the AutoDeploy.ps1 file:
+
+* Line 636
+  * Change to the color you would like your background​
+* Line 637
+  * Change to what color you would want your foreground​
+* Line 640
+  * Change the base64 string for the logo that you want to display across the system
+
+I added the ability to have a default automated build if the device falls between a set IP Range.
+This ensures that there won't be any failures during the process if the device had not been preprovisioned.
+
+We needed this in our environment so that no matter what devices go to the Dell Configuration Center,
+it would always get imaged with out image and we could reduce the number of calls back and forth when a device got missed
+in the pre-provisioning process. This particular section will NOT run, unless the device falls between the range.
+In order to accomodate this, we need to add a few specific items staged in the script.
+
+* Line 415
+  * Change IP range of automated computers​
+* Line 442, 443, and 491
+  * Change what you want the default computer name to be​
+
+> You will need to add a single device in the portal called DellDefault (you can rename to whatever you like, but make sure that you change it in the script as well) which includes your default task sequence to run with the default application profile as well as default OU​
