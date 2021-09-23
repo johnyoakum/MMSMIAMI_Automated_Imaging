@@ -85,7 +85,7 @@ in the WinPE phase. I will also go through the process of configuring VNC for co
 after the WinPE phase. The dashboard stores all the information needed to connect to those machines. In the "Configuring 
 Task Sequence" section, I will cover the additional steps you will want to add for facilitating this.
 
-## Congigure Boot Image
+## Configure Boot Image
 
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
 
@@ -97,5 +97,23 @@ Task Sequence" section, I will cover the additional steps you will want to add f
 * Create your location(s)
 * Add Application Profile(s)
 * Add your default computer setting
+
+### Create your location(s)
+In your dashboard, click the link on the left for Locations.
+
+### Add Application Profile(s)
+* In your dashboard, click the link for Application Profiles
+* Click the Plus (+) sign to add an Application Profile
+* Enter in an Application Profile Name and if desired a Description
+* Press the 'OK' Button
+* On the screen that pops up, click the Plus (+) for Application
+* Select the applications you would like to add to the profile
+* If wanted to, you can add a custom Task Sequence variable that is also associated with this profile
+  * Click Add and then Enter your variable. I only have them set for True/False values. So, if true do something in the TS.
+
+The apps save automatically when you add them, but once done, you can click Update, but it is not necessary.
+
+
+
 
 
