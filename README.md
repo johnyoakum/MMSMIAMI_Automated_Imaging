@@ -113,7 +113,14 @@ In your dashboard, click the link on the left for Locations.
 
 The apps save automatically when you add them, but once done, you can click Update, but it is not necessary.
 
-
-
+### Add your default computer setup
+* Click 'Hardware Devices' link
+* Click 'Add Single Computer'
+* Enter 'DellDefault' in the Computer Name field (this will not be used during OSD)
+* Enter 'DellDefault' in the Serial Number field
+* Enter the DisguishedName of the OU that you wish to put default machines in
+* Choose the Default Task Sequence that you would like to use
+* Choose the Default Application Profile that you our like to use
+* Click 'Add Computer'
 
 
