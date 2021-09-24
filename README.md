@@ -112,6 +112,7 @@ and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart
 ### Added Startup Command and Package
 Create the package with your AutoDeploy.ps1 script it in and distribute out to the distribuation point(s)
 
+### Finalize Boot Image
 Once done, don't forget up distribute/update your boot images on the Distribution Point(s).
 
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
