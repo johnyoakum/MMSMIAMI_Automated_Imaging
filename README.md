@@ -104,9 +104,16 @@ I will cover the steps after the base boot image is created. In a nutshell, we w
 You may already work with drivers so I won't go into deep detail, but here is where you would add drivers.
 ![Drivers](/images/drivers.jpg)
 
+### Add DaRT Tools
 Here is the blog posts that I followed to add the DaRT Tools to the boot image: 
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
 and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
+
+### Added Startup Command and Package
+Create the package with your AutoDeploy.ps1 script it in and distribute out to the distribuation point(s)
+
+Once done, don't forget up distribute/update your boot images on the Distribution Point(s).
+
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
 I did not figure this process out myself. I had a good blog post to follow:
 [Remote Control During SCCM OSD (Without Modifying the Boot.wim)](http://syswow.blogspot.com/2012/05/remote-control-during-sccm-osd-without.html)
