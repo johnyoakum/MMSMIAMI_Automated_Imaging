@@ -100,6 +100,10 @@ I will cover the steps after the base boot image is created. In a nutshell, we w
 ![Optinal Components](/images/optionalcomponents.JPG)
 ![Components to Add](/images/allcomponents.jpg)
 
+### Add Drivers (if desired)
+You may already work with drivers so I won't go into deep detail, but here is where you would add drivers.
+![Drivers](/images/Drivers.png)
+
 Here is the blog posts that I followed to add the DaRT Tools to the boot image: 
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
 and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
