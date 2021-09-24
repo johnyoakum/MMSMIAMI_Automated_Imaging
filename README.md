@@ -89,8 +89,8 @@ Task Sequence" section, I will cover the additional steps you will want to add f
 
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
 I did not figure this process out myself. I had a good blog post to follow...
-http://github.com - automatic!
-[GitHub](http://github.com)
+
+[Remote Control During SCCM OSD (Without Modifying the Boot.wim)](http://syswow.blogspot.com/2012/05/remote-control-during-sccm-osd-without.html)
 
 ## Configure Task Sequence
 
