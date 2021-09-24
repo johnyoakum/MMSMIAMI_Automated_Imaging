@@ -88,9 +88,10 @@ Task Sequence" section, I will cover the additional steps you will want to add f
 ## Configure Boot Image
 
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
-I did not figure this process out myself. I had a good blog post to follow...
-
+I did not figure this process out myself. I had a good blog post to follow:
 [Remote Control During SCCM OSD (Without Modifying the Boot.wim)](http://syswow.blogspot.com/2012/05/remote-control-during-sccm-osd-without.html)
+And this one for some more information:
+[DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 
 ## Configure Task Sequence
 
