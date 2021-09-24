@@ -96,9 +96,11 @@ I will cover the steps after the base boot image is created. In a nutshell, we w
 * DaRT Tools (see links and attached scripts)
 * Startup Script Settings and Package
 
-![GitHub Logo](/images/MyPic.jpg)
+### Add the Optional Components
 
-Here is the blog post that I followed to add the DaRT Tools to the boot image: 
+![Components to Add](/images/AllComponents.png)
+
+Here is the blog posts that I followed to add the DaRT Tools to the boot image: 
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
 and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
