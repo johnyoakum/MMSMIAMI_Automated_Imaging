@@ -97,7 +97,7 @@ I will cover the steps after the base boot image is created. In a nutshell, we w
 * Startup Script Settings and Package
 
 ### Add the Optional Components
-
+![Optinal Components](/images/optionalcomponents.JPG)
 ![Components to Add](/images/allcomponents.jpg)
 
 Here is the blog posts that I followed to add the DaRT Tools to the boot image: 
