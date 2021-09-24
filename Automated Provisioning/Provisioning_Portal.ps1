@@ -3,6 +3,7 @@
     New-UdListItem -Label "Hardware Devices" -OnClick {Invoke-UDRedirect '/Hardware-Devices'}
     New-UDListItem -Label "Application Profiles" -OnClick {Invoke-UDRedirect '/Application-Profiles'}
     New-UDListItem -Label "Hardware Remote Codes" -OnClick {Invoke-UDRedirect '/Hardware-Remote-Codes'}
+	New-UDListItem -Label "Locations" -OnClick {Invoke-UDRedirect '/Locations'}
 )
 $Pages = @()
 # Change the base URL below to specify API locations
@@ -702,5 +703,140 @@ $Pages += New-UDPage -Name "Applications for Profile" -Title "Provisioning Porta
         }
     }
 } -NavigationLayout permanent -Navigation $Navigation
-
+$Pages += New-UDPage -Name "Locations" -Title "Provisioning Portal" -Id "LocationsPage"  -Content {
+    New-UDElement -tag 'p' # This adds a blank line
+    New-UDTypography -Text "On this page, you should be able to see all the available locations. You can add and remove from here." -Variant "h5"
+    New-UDElement -tag 'p' # This adds a blank line
+    New-UDElement -tag 'p' # This adds a blank line
+    New-UDElement -tag 'p' # This adds a blank line
+    New-UDTable -Title 'Locations' -Id 'Locations' -LoadData {
+        $TableData = ConvertFrom-Json $Body
+        $OrderBy = $TableData.orderBy.field
+        If ($OrderBy -eq $null){
+            $OrderBy = 'LocationName'
+        }
+        $OrderDirection = $TableData.OrderDirection
+        If ($OrderDirection -eq $null){
+            $OrderDirection = "asc"
+        }
+        $Where = ""
+        If ($TableData.Filters){
+            $Where = "WHERE "
+            ForEach($filter in $TableData.Filters){
+                $Where += $filter.id + " LIKE '%" + $filter.value + "%' AND "
+            }
+            $Where += " 1 = 1"
+        }
+        $PageSize = $TableData.PageSize
+        # Calculate the number of rows to skip
+        $Offset = $TableData.Page * $PageSize
+        $Count = Invoke-Sqlcmd -ServerInstance $SqlServer -Database $SQLDB -Query "Select COUNT(*) as count from dbo.Locations $WHERE"
+        $Data = Invoke-Sqlcmd -ServerInstance $SqlServer -Database $SQLDB -Query "Select locationID,LocationName,campusCode,SearchBase,display FROM dbo.Locations $WHERE ORDER BY $OrderBy $OrderDirection OFFSET $Offset ROWS FETCH NEXT $PageSize ROWS ONLY" | ForEach-Object {
+            @{
+                LocationName = $_.LocationName
+                CampusCode = $_.CampusCode
+                SearchBase = $_.SearchBase
+                Display = $_.Display
+                locationID = $_.locationID
+            }
+        }
+        $Data | Out-UDTableData -Page $TableData.page -TotalCount $Count.count -Properties $TableData.properties
+        } -Columns @(
+            New-UDTableColumn -Property 'LocationName' -Title 'Location' -Sort -Filter -IncludeInExport
+            New-UDTableColumn -Property 'CampusCode' -Title 'Prefix' -Sort -Filter -IncludeInExport
+            New-UDTableColumn -Property 'SearchBase' -Title 'Search Base' -Sort -Filter -IncludeInExport
+            New-UDTableColumn -Property 'Display' -Title 'Active' -Sort -Filter
+            New-UDTableColumn -Property 'locationID' -Title 'Actions' -Render {
+                New-UDButton -Icon (New-UDIcon -Icon edit) -OnClick {
+                    Show-UDModal -Persistent -FullWidth -MaxWidth 'md' -Content {
+                        New-UDTypography -Text "Edit Location" -variant 'h4'
+                        New-UDElement -tag 'p' # This adds a blank line
+                        New-UDTextBox -Id 'txtLocationID' -Disabled -Value $Eventdata.LocationID
+                        New-UDElement -tag 'p' # This adds a blank line
+                        New-UDTextBox -Id 'txtLocationName' -Label 'Location Name' -Value $Eventdata.LocationName
+                        New-UDElement -tag 'p' # This adds a blank line
+                        New-UDTextBox -Id 'txtCampusCode' -Label 'Prefix' -Value $Eventdata.CampusCode
+                        New-UDElement -tag 'p' # This adds a blank line
+                        New-UDTextBox -Id 'txtBaseOU' -Label 'Search Base' -FullWidth -Value $EventData.SearchBase
+                        New-UDElement -tag 'p' # This adds a blank line
+                        New-UDSelect -Id 'bolDisplay' -Label 'Active' -DefaultValue $(If ($EventData.display -eq "True") {1} else {0})  -Option {
+                            New-UDSelectOption -Name "True" -Value 1
+                            New-UDSelectOption -Name "False" -Value 0
+                        }
+                        New-UDElement -tag 'p' # This adds a blank line
+                    } -Footer {
+                        New-UDButton -Text "Update Location" -Icon (New-UDIcon -Icon plus_square -Color 'green' -Size 'lg') -OnClick {
+                            $NewlocationID = $(Get-UDElement -Id 'txtLocationID').Value
+                            $NewLocationName = $(Get-UDElement -Id 'txtLocationName').Value
+                            $NewCampusCode = $(Get-UDElement -Id 'txtCampusCode').Value
+                            $NewSearchBase = $(Get-UDElement -Id 'txtBaseOU').Value
+                            $NewActive = $(Get-UDElement -Id 'bolDisplay').Value
+                            Try {
+                                Invoke-Sqlcmd -ServerInstance $SqlServer -Database $SQLDB -Query "UPDATE dbo.Locations 
+                                SET LocationName = '$($NewLocationName)', campusCode = '$($NewCampusCode)', searchBase = '$($NewSearchBase)', display = '$($NewActive)' 
+                                WHERE locationId = $($NewlocationID)" -ErrorAction stop
+                                Sync-UDElement -Id 'Locations'
+                                Hide-UDModal
+                            } catch {
+                                Show-UDToast -Message "Failed to update Location" -Duration 20000 -MessageColor 'red' -Position 'bottomCenter'
+                            }
+                        }
+                        New-UDButton -Text "Close" -Icon (New-UDIcon -Icon times_circle -Color 'red' -Size 'lg') -OnClick { 
+                            Hide-UDModal
+                        }
+                    }
+                }
+            }
+        ) -Sort -Paging -Filter -Export -ShowSelection
+    New-UDButton -Text "Add Location" -OnClick {
+        Show-UDModal -Persistent -FullWidth -MaxWidth 'md' -Content {
+            New-UDTypography -Text "Add Location" -variant 'h4'
+            New-UDElement -tag 'p' # This adds a blank line
+            New-UDTextBox -Id 'txtLocationName' -Label 'Location Name'
+            New-UDElement -tag 'p' # This adds a blank line
+            New-UDTextBox -Id 'txtCampusCode' -Label 'Prefix'
+            New-UDElement -tag 'p' # This adds a blank line
+            New-UDTextBox -Id 'txtBaseOU' -Label 'Search Base' -FullWidth
+            New-UDElement -tag 'p' # This adds a blank line
+            New-UDSelect -Id 'bolDisplay' -Label 'Active' -Option {
+                New-UDSelectOption -Name "True" -Value 1
+                New-UDSelectOption -Name "False" -Value 0
+            }
+            New-UDElement -tag 'p' # This adds a blank line
+        } -Footer {
+            New-UDButton -Text "Add Location" -Icon (New-UDIcon -Icon plus_square -Color 'green' -Size 'lg') -OnClick {
+                $NewLocationName = $(Get-UDElement -Id 'txtLocationName').Value
+                $NewCampusCode = $(Get-UDElement -Id 'txtCampusCode').Value
+                $NewSearchBase = $(Get-UDElement -Id 'txtBaseOU').Value
+                $NewActive = $(Get-UDElement -Id 'bolDisplay').Value
+                Try {
+                    Invoke-Sqlcmd -ServerInstance $SqlServer -Database $SQLDB -Query "INSERT INTO dbo.Locations 
+                    ([locationName],[campusCode],[searchBase],[display])
+                    VALUES
+                    '$($NewLocationName)',nchar(35), '$($NewCampusCode)',nchar(4), '$($NewSearchBase)',nchar(255), '$($NewActive)',bit)" -ErrorAction stop
+                    Sync-UDElement -Id 'Locations'
+                    Hide-UDModal
+                } catch {
+                    Show-UDToast -Message "Failed to add Location" -Duration 20000 -MessageColor 'red' -Position 'bottomCenter'
+                }
+            }
+            New-UDButton -Text "Close" -Icon (New-UDIcon -Icon times_circle -Color 'red' -Size 'lg') -OnClick { 
+                Hide-UDModal
+            }
+        }
+    }
+    New-UDButton -Text "Delete Entries" -OnClick {
+        $values = Get-UDElement -Id "Locations"
+        $SelectedRows = $( $values.selectedRows )
+        ForEach ($Row in $SelectedRows) {
+            Try {
+                Invoke-Sqlcmd -ServerInstance $SqlServer -Database $SQLDB -Query "DELETE FROM dbo.Locations WHERE LocationName = '$($($Row).LocationName)'"
+                Show-UDToast -Message "You have successfully deleted $($($Row).LocationName) from the Locations" -Duration 10000
+                Sync-UDElement -Id 'DataTable'
+            } Catch {
+                Show-UDToast -Message "Failed to delete $($($Row).LocationName) from the Locations" -MessageColor red -Duration 30000
+            }
+        }
+    }
+} -NavigationLayout permanent -Navigation $Navigation
 New-UDDashboard -Title "Provisioning Portal" -Pages $Pages
