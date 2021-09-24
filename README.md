@@ -86,8 +86,17 @@ after the WinPE phase. The dashboard stores all the information needed to connec
 Task Sequence" section, I will cover the additional steps you will want to add for facilitating this.
 
 ## Configure Boot Image
+I am not gonna go into the details of how to create a brand new boot image, however, 
+I will cover the steps after the base boot image is created. In a nutshell, we will cover the following things:
+* Add Components to boot image
+  * Powershell
+  * .NET
+  * MDAC
+* Drivers (if desired)
+* DaRT Tools (see links and attached scripts)
+* Startup Script Settings and Package
 
-
+![GitHub Logo](/images/logo.png)
 
 Here is the blog post that I followed to add the DaRT Tools to the boot image: 
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
