@@ -98,7 +98,7 @@ I will cover the steps after the base boot image is created. In a nutshell, we w
 
 ### Add the Optional Components
 
-![Components to Add](/images/allcomponents.png)
+![Components to Add](/images/allcomponents.jpg)
 
 Here is the blog posts that I followed to add the DaRT Tools to the boot image: 
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
