@@ -89,7 +89,8 @@ Task Sequence" section, I will cover the additional steps you will want to add f
 
 
 
-Here is the blog post that I followed to add the DaRT Tools to the boot image: [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
+Here is the blog post that I followed to add the DaRT Tools to the boot image: 
+[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
 and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
 I did not figure this process out myself. I had a good blog post to follow:
@@ -140,5 +141,11 @@ The apps save automatically when you add them, but once done, you can click Upda
 * Click 'Add Computer'
 
 > The default computer setup is for when the automated provisioning runs and the device falls within the given range, AND it is not provisioned in the portal.
+
+
+## Reference Links
+[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
+[Remote Control During SCCM OSD (Without Modifying the Boot.wim)](http://syswow.blogspot.com/2012/05/remote-control-during-sccm-osd-without.html)
+[DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 
 
