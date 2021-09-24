@@ -88,6 +88,9 @@ Task Sequence" section, I will cover the additional steps you will want to add f
 ## Configure Boot Image
 
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
+I did not figure this process out myself. I had a good blog post to follow...
+http://github.com - automatic!
+[GitHub](http://github.com)
 
 ## Configure Task Sequence
 
