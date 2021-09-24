@@ -110,7 +110,13 @@ Here is the blog posts that I followed to add the DaRT Tools to the boot image:
 and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 
 ### Added Startup Command and Package
-Create the package with your AutoDeploy.ps1 script it in and distribute out to the distribuation point(s)
+Put you AutoDeploy.ps1 script in a shared folder for use in the pre-start command
+
+Add the following prestart command:
+
+> powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File X:\sms\PKG\SMS10000\AutoDeploy.ps1
+
+![Prestart Command](/images/prestart.png)
 
 ### Finalize Boot Image
 Once done, don't forget up distribute/update your boot images on the Distribution Point(s).
