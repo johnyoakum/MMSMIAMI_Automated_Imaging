@@ -99,7 +99,15 @@ Task Sequence" section, I will cover the additional steps you will want to add f
 * Add your default computer setting
 
 ### Create your location(s)
-In your dashboard, click the link on the left for Locations.
+* In your dashboard, click the link on the left for Locations.
+* Click the 'Add Location' button
+* Enter the Location Name
+* Enter a Prefix
+  * In this scenario, the prefix is associated with Task Sequences if doing a manual build. In task sequences, the prefix will help filter down available task sequences.
+* Enter the distinguishedName of the OU that you want to start the search for populating the OU structure when performing manual builds
+* Choose whether the Location is Active or not
+
+> The AutoDeploy.ps1 script provides for performing manual builds and this is the basis for some of it, however I don't cover it in this walkthrough.
 
 ### Add Application Profile(s)
 * In your dashboard, click the link for Application Profiles
@@ -122,5 +130,7 @@ The apps save automatically when you add them, but once done, you can click Upda
 * Choose the Default Task Sequence that you would like to use
 * Choose the Default Application Profile that you our like to use
 * Click 'Add Computer'
+
+> The default computer setup is for when the automated provisioning runs and the device falls within the given range, AND it is not provisioned in the portal.
 
 
