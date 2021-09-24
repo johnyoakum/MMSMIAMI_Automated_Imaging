@@ -87,6 +87,9 @@ Task Sequence" section, I will cover the additional steps you will want to add f
 
 ## Configure Boot Image
 
+
+
+Here is the blog post that I followed to add the DaRT Tools to the boot image: [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
 ## Configure VNC for connecting remotely during Task Sequence (after WinPE)
 I did not figure this process out myself. I had a good blog post to follow:
 [Remote Control During SCCM OSD (Without Modifying the Boot.wim)](http://syswow.blogspot.com/2012/05/remote-control-during-sccm-osd-without.html)
