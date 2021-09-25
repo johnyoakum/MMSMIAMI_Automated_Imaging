@@ -1,0 +1,6 @@
+select disk 0
+clean
+create partition primary
+format quick fs=ntfs
+active
+assign letter="C"
