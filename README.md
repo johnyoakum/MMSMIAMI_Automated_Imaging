@@ -26,6 +26,8 @@ in order to access the machines remotely while they were imaging. All on a per m
 * Permissions to create Database Structure
 * Admin permissions
 * DaRT Tools (for remote access)
+* Microsoft Deployment Toolkit (MDT)
+
 ## Setup Database, APIs and Provisioning Dashboard
 Contained in this repo are all the files necessary to make this solution work for you. Run the script 
 Install-AutomatedProvisioning.ps1 with the following syntax:
@@ -106,8 +108,8 @@ You may already work with drivers so I won't go into deep detail, but here is wh
 
 ### Add DaRT Tools
 Here is the blog posts that I followed to add the DaRT Tools to the boot image: 
-[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
-and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
+[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/), [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://www.deploymentresearch.com/adding-dart-to-configmgr-boot-images-and-starting-it-earlier-than-early/)
+ and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 
 ### Added Startup Command and Package
 Put you AutoDeploy.ps1 script in a shared folder for use in the pre-start command
@@ -173,6 +175,8 @@ The apps save automatically when you add them, but once done, you can click Upda
 
 
 ## Reference Links
+[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://www.deploymentresearch.com/adding-dart-to-configmgr-boot-images-and-starting-it-earlier-than-early/)
+
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
 
 [Remote Control During SCCM OSD (Without Modifying the Boot.wim)](http://syswow.blogspot.com/2012/05/remote-control-during-sccm-osd-without.html)
