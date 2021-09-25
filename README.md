@@ -130,15 +130,92 @@ Add the following prestart command:
 ### Finalize Boot Image
 Once done, don't forget up distribute/update your boot images on the Distribution Point(s).
 
-## Configure VNC for connecting remotely during Task Sequence (after WinPE)
+## Configure VNC for connecting remotely during Task Sequence (after WinPE)(OPTIONAL)
 I did not figure this process out myself. I had a good blog post to follow:
 [Remote Control During SCCM OSD (Without Modifying the Boot.wim)](http://syswow.blogspot.com/2012/05/remote-control-during-sccm-osd-without.html)
 And this one for some more information:
 [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 
-## Configure Task Sequence
+If you decide to add this section, be sure to change the WinPE_Dart.ps1 file to the correct VNC
+password so that your Remote Code in the dashboard is using the correct one. This would be better if done
+before you add DaRT Tools to your boot image or you will need to mount the boot image to change it and 
+then dismount and then update the distribution points again.
+
+### Configure Task Sequence for VNC
+After every reboot, add a step that runs the package that has the VNC Viewer in it.
 
 ## Dashboard Walkthrough
+### Main Screen
+![Dashboard Home Screen](/images/portalhome.png)
+
+This is the home screen for the Dashboard. From here you will navigate to any of the other pages
+for what you want to do.
+
+### Hardware Devices
+![Hardware Devices](/images/hardwarepage1.png)
+
+On this screen, you will see all devices that have been provisioned. Here you will also add devices
+to the system. To add a single device, choose the button to add a single device. This system also allows
+you to add devices in bulk... the requirements to use the bulk add are that the devices must be
+going into the same OU, have the same task sequence and have the same Application profile. An example of 
+this would be a computer lab that all get the same build.
+
+#### Single Computer Addition
+![Add Single Device](/images/addsinglecomputer.png)
+
+Enter the hostname, serial number, and distinguishedName of the destination OU, then choose the task sequence and Application 
+Profile. You can add notes if you'd like for this entry.
+
+#### Bulk Computer Addition
+![Add Computers in Bulk](/images/computerbulkentry.png)
+
+Enter the distinguishedName of where you would like to store the items in AD, then choose the Task Sequence 
+and Application Profile you wish to use. Have a CSV file of the Serial Numbers and Hostnames you would like 
+and then copy and paste into the box.
+
+### Application Profiles
+![Application Profiles](/images/applicationprofiles.png)
+
+Here is where you will find all the Application Profiles that you have created or where you can create new 
+ones. To create a new one, just click the button to add a profile.
+
+#### Add Application Profile
+![Add Application Profile](/images/addappprofile.png)
+
+Enter the Application Profile Name and any notes you wish to add and then press Add. This will take you 
+to the next page where you will add applications or variables to the profile.
+
+#### Application Profile Editor
+![Application Profile Editor](/images/appprofileedit.png)
+
+Edit the Profile or choose the add button under Applications or Variables to add either to your profile.
+
+#### Add Application
+![Add Application](/images/addapplication.png)
+
+This is a multi-value selection that you can choose all the applications you wish to add to the profle. 
+Choose the applications you want and then click OK.
+
+#### Add Variables
+![Add Variables](/images/addvariable.png)
+
+Enter the Task Sequence Variable that you wish to create and choose the drop down for True or False and click OK.
+
+### Hardware Remote Codes
+![Remote Codes](/images/remotecodes.png)
+
+Here you will find all the connection information to connect to the device while it is imaging.
+
+### Locations
+![Locations](/images/locations.png)
+
+Here is where you will see all the Locations that you have defined and you can add more. To add more 
+click the button to add location.
+
+#### Add Locations
+![Add Location](/images/addlocation.png)
+
+Enter the location name, prefix for that location, and the Base OU in AD that you want to search and store devices in AD for, and click OK.
 
 ## First Time Setup in Dashboard
 * Create your location(s)
