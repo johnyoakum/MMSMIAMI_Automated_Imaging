@@ -80,7 +80,7 @@ New-PSUEndpoint -Url "/Locations" -Endpoint {
 } 
 New-PSUEndpoint -Url "/TaskSequences" -Description "Get all Task Sequences Available" -Endpoint {
 
-    Invoke-Sqlcmd -ServerInstance <SQLHOST> -Database [cm_<SITECODE>] -Query "Select rtrim(AdvertisementID) as AdvertisementID,rtrim(PackageName) as PackageName FROM v_AdvertisementInfo WHERE PackageID IN(SELECT PkgID FROM vSMS_TaskSequencePackage Where TS_Type = 2) AND (CollectionID = 'SMS000US' or CollectionID = '04900A68' or CollectionID = '04900A69' or CollectionID = '04900AC0')" | ConvertTo-Json
+    Invoke-Sqlcmd -ServerInstance <SQLHOST> -Database <SQLDB> -Query "Select * FROM AvailableTaskSequences" | ConvertTo-Json
 } 
 New-PSUEndpoint -Url "/Debug" -Endpoint {
 $False

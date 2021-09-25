@@ -217,6 +217,12 @@ SELECT DISTINCT
 FROM [cm_$SiteCode].dbo.[CI_Models] 
 INNER JOIN (([cm_$SiteCode].dbo.[SMSPackages] INNER JOIN [cm_$SiteCode].dbo.[CIContentPackage] ON [cm_$SiteCode].dbo.[SMSPackages].PkgID = [cm_$SiteCode].dbo.[CIContentPackage].[PkgID]) INNER JOIN [cm_$SiteCode].dbo.[CI_ConfigurationItems] ON [cm_$SiteCode].dbo.[CIContentPackage].CI_ID = [cm_$SiteCode].dbo.[CI_ConfigurationItems].CI_ID) ON [cm_$SiteCode].dbo.[CI_Models].ModelId = [cm_$SiteCode].dbo.[CI_ConfigurationItems].ModelId
 GO
+
+CREATE VIEW [dbo].[AvailableTaskSequences] AS 
+SELECT rtrim(AdvertisementID) as AdvertisementID,rtrim(PackageName) as PackageName 
+FROM [cm_$SiteCode].[dbo].[v_AdvertisementInfo]
+WHERE PackageID IN(SELECT PkgID FROM [cm_$SiteCode].[dbo].[vSMS_TaskSequencePackage] Where TS_Type = 2) AND CollectionID = 'SMS000US'
+GO
 "
 $sqlLinkedServer = "
 USE master;  
@@ -336,7 +342,15 @@ $DomainWINS = $($UniversalHost -split "\.")[1]
 
 #-----------------------------------------------------------[Execution]------------------------------------------------------------
 Write-Host "Starting to install the project for the automated imaging..."
+Write-Host "Checking for elevation"
 
+If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
+    [Security.Principal.WindowsBuiltInRole] "Administrator"))
+{
+    Write-Warning "Oops, you need to run this script from an elevated PowerShell prompt!`nPlease start the PowerShell prompt as an Administrator and re-run the script."
+    Write-Warning "Aborting script..."
+    Break
+}
 Write-Host "Attempting to connect to remote SQL Server..."
 Try {
 	$IsSQLInstalled =  Invoke-Command -Computername $ServerInstance { Get-Service -Name MSSQL* | Where-Object {$_.status -eq "Running" -and ($_.name -ne 'MSSQLFDLauncher')} | Select-Object -Property PSComputerName, @{label='InstanceName';expression={$_.Name -replace '^.*\$'}} } -ErrorAction Stop
