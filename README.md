@@ -108,7 +108,7 @@ You may already work with drivers so I won't go into deep detail, but here is wh
 
 ### Add DaRT Tools
 Here is the blog posts that I followed to add the DaRT Tools to the boot image: 
-[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/), [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://www.deploymentresearch.com/adding-dart-to-configmgr-boot-images-and-starting-it-earlier-than-early/)
+[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/), [Adding DaRT to ConfigMgr Boot Images – And starting it earlier than early](https://www.deploymentresearch.com/adding-dart-to-configmgr-boot-images-and-starting-it-earlier-than-early/)
  and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 
 ### Added Startup Command and Package
@@ -175,7 +175,7 @@ The apps save automatically when you add them, but once done, you can click Upda
 
 
 ## Reference Links
-[Integrate DaRT in a ConfigMgr boot image using PowerShell](https://www.deploymentresearch.com/adding-dart-to-configmgr-boot-images-and-starting-it-earlier-than-early/)
+[Adding DaRT to ConfigMgr Boot Images – And starting it earlier than early](https://www.deploymentresearch.com/adding-dart-to-configmgr-boot-images-and-starting-it-earlier-than-early/)
 
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/)
 
