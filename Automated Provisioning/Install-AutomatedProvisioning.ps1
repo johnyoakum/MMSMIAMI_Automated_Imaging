@@ -412,6 +412,7 @@ Write-Host "Updating Boot image script with correct API references based on defa
 Write-Host "Updating WinPE_Dart script with correct API references based on default Powershell Universal Installation..."
 # Search through Powershell Boot script for API references and replace with right server
 (Get-Content -path $ScriptPath\SampleFiles\WinPE_Dart.ps1) | ForEach-Object {$_ -replace '<UNIVERSALSERVER>',"$($UniversalHost)" } | Set-Content -path $ScriptPath\SampleFiles\WinPE_Dart.ps1 | Out-Null
+(Get-Content -path $ScriptPath\SampleFiles\WinPE_Dart.ps1) | ForEach-Object {$_ -replace '<UNIVERSALSERVERNAME>',"$($env:COMPUTERNAME)" } | Set-Content -path $ScriptPath\SampleFiles\WinPE_Dart.ps1 | Out-Null
 
 Write-Host "Updating AutoDeploy script with correct Domain references based on default Powershell Universal Installation..."
 # Search through Powershell Boot script for API references and replace with right server

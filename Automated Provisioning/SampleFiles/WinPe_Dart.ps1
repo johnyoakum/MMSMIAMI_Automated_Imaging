@@ -21,12 +21,13 @@
 
 
 $siteserver = "<UNIVERSALSERVER>"
+$UniversalServer = "<UNIVERSALSERVERNAME>"
 
 #Wait for network
 do {
   Write-Host "Starting Dart  - Waiting for Network To Be Ready....". -ForegroundColor Yellow
   sleep 3      
-} until(Test-Connection -computer $siteserver | Where-Object { $_.StatusCode -like "0" } )
+} until(Test-Connection -computer $UniversalServer | Where-Object { $_.StatusCode -like "0" } )
 
 # Start Remote Recovery
 Write-Host "Launching Dart" -ForegroundColor Yellow
