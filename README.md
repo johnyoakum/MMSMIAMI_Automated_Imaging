@@ -111,8 +111,15 @@ Here is the blog posts that I followed to add the DaRT Tools to the boot image:
 [Integrate DaRT in a ConfigMgr boot image using PowerShell](https://msendpointmgr.com/2019/12/23/integrate-dart-in-a-configmgr-boot-image-using-powershell/), [Adding DaRT to ConfigMgr Boot Images – And starting it earlier than early](https://www.deploymentresearch.com/adding-dart-to-configmgr-boot-images-and-starting-it-earlier-than-early/)
  and [DaRT & VNC Remote during OSD without Integration](https://garytown.com/dart-vnc-remote-during-osd-without-integration)
 
+Run the script "Add-DaRTtoBootImage.ps1" using the following command line, replacing the {} sections with your own data, 
+to add the DaRT Tools to the boot wim and also confure it so that it starts when the boot image first starts up. 
+When the DaRT tools starts, it will also add an entry to the dashboard under remote control codes so that you have the 
+Ticket Number, IP Address, and port needed to connect. Using the attached DartConfig.dat file, it will always use port 3389.
+
+> .\Add-DaRTtoBootImage.ps1 -BootImageName '{Name of Boot Image to Use}' -MountPath {Mount Path} -DartCAB {Path to toolscabx64.cab} -SampleFiles .\SampleFiles\ -SiteServer {SiteServer} -SiteCode {SiteCode}
+
 ### Added Startup Command and Package
-Put you AutoDeploy.ps1 script in a shared folder for use in the pre-start command
+Copy the AutoDeploy.ps1 and the diskpart.txt files to a shared folder for use in the pre-start command
 
 Add the following prestart command:
 
