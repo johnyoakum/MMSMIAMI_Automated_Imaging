@@ -99,7 +99,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Write-Warning "Aborting script..."
     Break
 }
-
+$ScriptPath = Split-Path $script:MyInvocation.MyCommand.Path
 # Connect to ConfigMgr
 if((Get-Module ConfigurationManager) -eq $null) {
     Import-Module "$($ENV:SMS_ADMIN_UI_PATH)\..\ConfigurationManager.psd1"
@@ -119,8 +119,8 @@ if (!(Test-Path -Path "$BootImagePath")) {Write-Warning "Could not find boot ima
 if (!(Test-Path -Path "$MountPath")) {Write-Warning "Could not find mount path, aborting...";Break}
 if (!(Test-Path -Path "$DartCab")) {Write-Warning "Could not find DaRT Toolsx64.cab, aborting...";Break}
 if (!(Test-Path -Path "$MDTInstallationPath")) {Write-Warning "Could not find MDT, aborting...";Break}
-if (!(Test-Path -Path "$SampleFiles\EnableDart.wsf")) {Write-Warning "Could not find EnableDart.wsf, aborting...";Break}
-if (!(Test-Path -Path "$SampleFiles\Unattend.xml")) {Write-Warning "Could not find Unattend.xml, aborting...";Break}
+if (!(Test-Path -Path "$ScriptPath\SampleFiles\EnableDart.wsf")) {Write-Warning "Could not find EnableDart.wsf, aborting...";Break}
+if (!(Test-Path -Path "$ScriptPath\SampleFiles\Unattend.xml")) {Write-Warning "Could not find Unattend.xml, aborting...";Break}
 
 # Mount the boot image
 Mount-WindowsImage -ImagePath $BootImagePath -Index 1 -Path $MountPath  
@@ -128,13 +128,13 @@ Mount-WindowsImage -ImagePath $BootImagePath -Index 1 -Path $MountPath
 # Add the needed files to the boot image
 expand.exe $DartCab -F:* $MountPath
 Remove-Item $MountPath\etfsboot.com -Force
-Copy-Item $MDTInstallationPath\Templates\DartConfig.dat $MountPath\Windows\System32\DartConfig.dat
+Copy-Item $ScriptPath\SampleFiles\DartConfig.dat $MountPath\Windows\System32\DartConfig.dat
 
 if (!(Test-Path -Path "$MountPath\Deploy\Scripts")) {New-Item -ItemType directory $MountPath\Deploy\Scripts}
 if (!(Test-Path -Path "$MountPath\Deploy\Scripts\x64")) {New-Item -ItemType directory $MountPath\Deploy\Scripts\x64}
 Copy-Item $SampleFiles\EnableDart.wsf $MountPath\Deploy\Scripts
 Copy-Item $SampleFiles\Unattend.xml $MountPath
-Copy-Item $SampleFiles\WinPE_Dart.ps1 $MountPath\Windows\System32\WinPE_Dart.ps1
+Copy-Item $ScriptPath\SampleFiles\WinPE_Dart.ps1 $MountPath\Windows\System32\WinPE_Dart.ps1
 Copy-Item "$MDTInstallationPath\Templates\Distribution\Scripts\ZTIDataAccess.vbs" $MountPath\Deploy\Scripts
 Copy-Item "$MDTInstallationPath\Templates\Distribution\Scripts\ZTIUtility.vbs" $MountPath\Deploy\Scripts
 Copy-Item "$MDTInstallationPath\Templates\Distribution\Scripts\ZTIGather.wsf" $MountPath\Deploy\Scripts
