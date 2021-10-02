@@ -59,11 +59,11 @@ This script will perform the following functions:
 #### There are some manual modifications to the scripts included here that help you customize the look and feel just for your environment.
 Change the following lines in the AutoDeploy.ps1 file:
 
-* Line 636
+* Line 639
   * Change to the color you would like your background​
-* Line 637
-  * Change to what color you would want your foreground​
 * Line 640
+  * Change to what color you would want your foreground​
+* Line 643
   * Change the base64 string for the logo that you want to display across the system (for manual deployments)
 
 I added the ability to have a default automated build if the device falls between a set IP Range.
