@@ -76,6 +76,10 @@ function Start-TaskSequence {
         [Parameter(Mandatory=$False,Position=3)]
 		[String]$SelectedTS
 	)
+	If (!(Test-Path c:)) {
+			diskpart /s X:\sms\PKG\SMS10000\diskpart.txt
+		}
+		
 		$tsenv = New-Object -ComObject Microsoft.SMS.TSEnvironment
         Write-Host $OSDComputerName
         Write-Host $MachineObjectOU
